@@ -168,12 +168,32 @@
     text-decoration: line-through;
     color: var(--muted);
   }
+  .progress-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 8px;
+  }
   .progress {
     font-size: 0.82em;
     color: var(--muted);
-    margin-top: 8px;
-    text-align: right;
   }
+  .reset-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.8em;
+    font-weight: 600;
+    color: var(--muted);
+    background: #f0f1f3;
+    border: none;
+    border-radius: 999px;
+    padding: 5px 11px;
+    cursor: pointer;
+  }
+  .reset-btn:hover { background: #e6e7ea; color: var(--ink); }
+  .reset-btn svg { width: 13px; height: 13px; }
 
   /* ---------- Mini toggle (nested "mehr Details") ---------- */
   details.mini {
@@ -370,7 +390,13 @@
     <li><label><input type="checkbox" onchange="updateProgress()"><span>Versicherungsnachweis griffbereit</span></label></li>
     <li><label><input type="checkbox" onchange="updateProgress()"><span>Falls fremdes Grundstück: Erlaubnis des Eigentümers für den Start eingeholt</span></label></li>
   </ul>
-  <div class="progress" id="progressText">0 / 8 erledigt</div>
+  <div class="progress-row">
+    <div class="progress" id="progressText">0 / 8 erledigt</div>
+    <button class="reset-btn" onclick="resetChecklist()" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+      Zurücksetzen
+    </button>
+  </div>
 </div>
 
 <div class="card" style="--cat: var(--blue); --cat-bg: var(--blue-bg);">
@@ -565,6 +591,12 @@ function updateProgress() {
   var boxes = document.querySelectorAll('.checklist input[type="checkbox"]');
   var checked = document.querySelectorAll('.checklist input[type="checkbox"]:checked').length;
   document.getElementById('progressText').textContent = checked + ' / ' + boxes.length + ' erledigt';
+}
+function resetChecklist() {
+  document.querySelectorAll('.checklist input[type="checkbox"]').forEach(function(box) {
+    box.checked = false;
+  });
+  updateProgress();
 }
 </script>
 
