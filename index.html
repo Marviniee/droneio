@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Drohnenbetrieb A1/A3 — Persönliches Merkblatt</title>
+<meta name="theme-color" content="#1a5fb4">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Drohnen-Merkblatt">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --muted: #666;
+    --line: #e4e4e4;
+    --accent: #1a5fb4;
+    --accent-bg: #eef4fc;
+    --ok-bg: #e6f4ea;
+    --ok-border: #2e7d32;
+    --ok-text: #1e5e26;
+    --warn-bg: #fff4e5;
+    --warn-border: #d98c00;
+    --warn-text: #8a5700;
+    --card-bg: #fff;
+    --page-bg: #f2f3f5;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--ink);
+    line-height: 1.5;
+    margin: 0;
+    background: var(--page-bg);
+    -webkit-font-smoothing: antialiased;
+  }
+  .page {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 16px 14px 60px;
+  }
+  @media (min-width: 700px) {
+    .page { max-width: 700px; padding: 40px 24px 80px; }
+    body { font-size: 16.5px; }
+  }
+
+  /* ---------- Header ---------- */
+  header.title-block {
+    background: var(--card-bg);
+    border-radius: 14px;
+    padding: 18px 18px 16px;
+    margin-bottom: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  h1 {
+    font-size: 1.35em;
+    margin: 0 0 4px;
+    line-height: 1.25;
+  }
+  @media (min-width: 700px) { h1 { font-size: 1.7em; } }
+  .subtitle {
+    color: var(--muted);
+    font-size: 0.92em;
+    margin-bottom: 10px;
+  }
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--accent-bg);
+    color: var(--accent);
+    border-radius: 999px;
+    padding: 4px 11px;
+    font-size: 0.78em;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .badge.ok {
+    background: var(--ok-bg);
+    color: var(--ok-text);
+  }
+
+  /* ---------- Cards / sections ---------- */
+  .card {
+    background: var(--card-bg);
+    border-radius: 14px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .card h2 {
+    font-size: 1.05em;
+    margin: 0 0 4px;
+  }
+  .card .card-hint {
+    color: var(--muted);
+    font-size: 0.85em;
+    margin: 0 0 10px;
+  }
+
+  /* ---------- Checklist (central, always visible) ---------- */
+  .checklist {
+    list-style: none;
+    padding-left: 0;
+    margin: 4px 0 0;
+  }
+  .checklist li { margin-bottom: 2px; }
+  .checklist label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 9px 6px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .checklist label:hover { background: #f5f6f8; }
+  .checklist input[type="checkbox"] {
+    flex: 0 0 auto;
+    width: 20px;
+    height: 20px;
+    margin: 1px 0 0;
+    accent-color: var(--ok-border);
+  }
+  .checklist input[type="checkbox"]:checked ~ span {
+    text-decoration: line-through;
+    color: var(--muted);
+  }
+  .checklist a { font-size: 0.95em; }
+  .progress {
+    font-size: 0.82em;
+    color: var(--muted);
+    margin-top: 8px;
+    text-align: right;
+  }
+
+  /* ---------- Accordion (collapsible detail sections) ---------- */
+  details.acc {
+    background: var(--card-bg);
+    border-radius: 14px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    overflow: hidden;
+  }
+  details.acc summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 14px 18px;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+  details.acc summary::-webkit-details-marker { display: none; }
+  .summary-text { display: flex; flex-direction: column; gap: 2px; }
+  .summary-teaser {
+    font-weight: 400;
+    font-size: 0.82em;
+    color: var(--muted);
+  }
+  .chevron {
+    flex: 0 0 auto;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #f0f1f3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85em;
+    transition: transform 0.15s ease;
+  }
+  details.acc[open] .chevron { transform: rotate(45deg); }
+  .acc-body {
+    padding: 0 18px 16px;
+    border-top: 1px solid var(--line);
+    padding-top: 12px;
+  }
+  .acc-body p { margin: 6px 0; }
+  .acc-body ul { margin: 6px 0; padding-left: 20px; }
+  .acc-body li { margin-bottom: 6px; }
+
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  code {
+    background: #f0f0f0;
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+
+  /* ---------- Callouts ---------- */
+  .callout {
+    border-radius: 10px;
+    padding: 11px 13px;
+    margin: 10px 0;
+    font-size: 0.92em;
+  }
+  .callout.ok { background: var(--ok-bg); }
+  .callout.ok .callout-title { color: var(--ok-text); }
+  .callout.warn { background: var(--warn-bg); }
+  .callout.warn .callout-title { color: var(--warn-text); }
+  .callout-title {
+    font-weight: 700;
+    display: block;
+    margin-bottom: 3px;
+  }
+
+  /* ---------- Stat boxes ---------- */
+  .stat-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 8px 0;
+  }
+  .stat-row-3 { grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 420px) {
+    .stat-row-3 { grid-template-columns: 1fr 1fr; }
+  }
+  .stat-box {
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 10px 12px;
+    text-align: center;
+  }
+  .stat-label { font-weight: 700; font-size: 0.88em; }
+  .stat-value { font-size: 1.5em; font-weight: 800; color: var(--accent); margin: 2px 0; }
+  .stat-detail { font-size: 0.76em; color: var(--muted); }
+
+  .footer-note {
+    margin-top: 20px;
+    padding: 0 6px;
+    font-size: 0.78em;
+    color: var(--muted);
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="title-block">
+  <h1>Drohnenbetrieb A1/A3</h1>
+  <div class="subtitle">Persönliches Merkblatt — DJI Mini 4 Pro &amp; DJI Neo 2</div>
+  <div class="badges">
+    <span class="badge">C0 · &lt;250 g</span>
+    <span class="badge">Unterkategorie A1</span>
+    <span class="badge">Nachweis bis 16.08.2031</span>
+    <span class="badge ok">✓ Registrierung &amp; Versicherung</span>
+  </div>
+</header>
+
+<div class="card">
+  <h2>Vor jedem Flug</h2>
+  <p class="card-hint">Zentrale Checkliste — alles abhaken vor dem Start.</p>
+  <ul class="checklist">
+    <li><label><input type="checkbox" onchange="updateProgress()"><span>Wetter geprüft — Wind unter <strong>10,7&nbsp;m/s</strong> (Windstärke 5, max. für beide Drohnen), Regen, Temperatur (unter 0&nbsp;°C: Akkuleistung &amp; Vereisungsgefahr an Propellern beachten)</span></label></li>
+    <li><label><input type="checkbox" onchange="updateProgress()"><span>Geo-Zonen geprüft: <a href="https://maptool-dipul.dfs.de" target="_blank" rel="noopener">maptool-dipul.dfs.de</a></span></label></li>
+    <li><label><input type="checkbox" onchange="updateProgress()"><span>NOTAMs / temporäre Betriebseinschränkungen geprüft: <a href="https://www.dipul.de/homepage/de/temporaere-betriebseinschraenkungen" target="_blank" rel="noopener">dipul.de</a> — am besten nochmal am Flugtag selbst</span></label></li>
+    <li><label><input type="checkbox" onchange="updateProgress()"><span>Umgebung gecheckt: keine Menschenansammlung, keine Straßen/Wege mit unerwartetem Personenverkehr, keine Hindernisse</span></label></li>
+    <li><label><input type="checkbox" onchange="updateProgress()"><span>Akku voll geladen, Firmware aktuell</span></label></li>
+    <li><label><input type="checkbox" onchange="updateProgress()"><span>I'M SAFE-Check: Illness · Medication · Stress · Alcohol · Fatigue · Emotion</span></label></li>
+    <li><label><input type="checkbox" onchange="updateProgress()"><span>Versicherungsnachweis griffbereit</span></label></li>
+    <li><label><input type="checkbox" onchange="updateProgress()"><span>Falls fremdes Grundstück: Erlaubnis des Eigentümers für den Start eingeholt</span></label></li>
+  </ul>
+  <div class="progress" id="progressText">0 / 8 erledigt</div>
+</div>
+
+<div class="card">
+  <h2>Auf einen Blick</h2>
+  <p class="card-hint">Die wichtigsten Zahlen, ohne irgendwas aufzuklappen.</p>
+  <div class="stat-row stat-row-3">
+    <div class="stat-box">
+      <div class="stat-label">Max. Höhe</div>
+      <div class="stat-value">120 m</div>
+      <div class="stat-detail">über Grund</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Max. Wind</div>
+      <div class="stat-value">10,7 m/s</div>
+      <div class="stat-detail">Windstärke 5, beide Drohnen</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Follow-Me</div>
+      <div class="stat-value">50 m</div>
+      <div class="stat-detail">max. Abstand</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">VLOS Mini 4 Pro</div>
+      <div class="stat-value">≈ 142 m</div>
+      <div class="stat-detail">berechnet</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">VLOS Neo 2</div>
+      <div class="stat-value">≈ 76 m</div>
+      <div class="stat-detail">berechnet</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Krankenhaus</div>
+      <div class="stat-value">100 m</div>
+      <div class="stat-detail">Mindestabstand</div>
+    </div>
+  </div>
+</div>
+
+<details class="acc">
+  <summary>
+    <span class="summary-text">Was du mit A1/C0 darfst<span class="summary-teaser">120 m max. Höhe · Menschenansammlungen tabu · Follow-Me 50 m</span></span>
+    <span class="chevron">+</span>
+  </summary>
+  <div class="acc-body">
+    <ul>
+      <li>Fliegen <strong>über vereinzelte unbeteiligte Personen</strong> ist mit äußerster Vorsicht erlaubt — sollte aber möglichst vermieden werden.</li>
+      <li><strong>Menschenansammlungen</strong> (Konzerte, volle Strände, Marktplätze, Einkaufsstraßen zur Öffnungszeit, Skipisten) darfst du <strong>niemals</strong> überfliegen — ausnahmslos.</li>
+      <li>Maximale Flughöhe: <strong>120&nbsp;m</strong> über dem nächstgelegenen Bodenpunkt (Hanglage/Gebirge: Höhe über Grund, nicht über Startpunkt).</li>
+      <li><strong>VLOS-Pflicht</strong>: ständiger Sichtkontakt mit bloßem Auge, Fluglage muss erkennbar sein. Reines Fliegen nach Kamerabild nur mit zweiter Person als Beobachter.</li>
+      <li>Follow-Me-Modus (falls genutzt): max. 50&nbsp;m Abstand zu dir.</li>
+      <li>Nachtflüge sind erlaubt, brauchen aber ein nach unten gerichtetes, grün blinkendes Licht — Details siehe „Nachtflug-Beleuchtung" unten.</li>
+    </ul>
+  </div>
+</details>
+
+<details class="acc">
+  <summary>
+    <span class="summary-text">Wo du nicht fliegen darfst<span class="summary-teaser">Krankenhäuser 100 m · Flughäfen · Naturschutz · Sperrgebiete</span></span>
+    <span class="chevron">+</span>
+  </summary>
+  <div class="acc-body">
+    <ul>
+      <li><strong>Menschenansammlungen</strong>: nie überfliegen (Konzerte, volle Strände/Parks, Marktplätze, Skipisten, Einkaufsstraßen zur Öffnungszeit).</li>
+      <li><strong>Krankenhäuser &amp; Notfalleinsätze</strong>: 100&nbsp;m-Flugverbot in Deutschland (Polizei, Feuerwehr, Rettungsdienst brauchen den Luftraum frei — auch für Rettungshubschrauber).</li>
+      <li><strong>Flughäfen &amp; Kontrollzonen</strong>: dort ist viel Instrumentenflugverkehr, Luftfahrzeuge im Anflug können auch außerhalb der Kontrollzone tief fliegen — grundsätzlich meiden.</li>
+      <li><strong>Naturschutzgebiete &amp; Nationalparks</strong>: oft eigene Flugverbote zum Schutz von Wildtieren (Fluchtinstinkt, v.a. im Winter kritisch).</li>
+      <li><strong>Luftsperrgebiete</strong> (Kennung XX-P): absolutes Durchflugverbot, keine Ausnahme. In Deutschland/Österreich aktuell keine eingerichtet, kann aber jederzeit (auch temporär) kommen.</li>
+      <li><strong>Gefahrengebiete</strong> (Kennung XX-D, z.B. militärische Schießübungen): Durchflug offiziell erlaubt, aber riskant — vor Einflug möglichst Funkkontakt mit dem Fluginformationsdienst (FIS) aufnehmen, sonst meiden.</li>
+      <li><strong>Militärische Tieffluggebiete</strong>: grundsätzlich meiden, auch unterhalb der eigenen Maximalhöhe — Gefahr durch tief fliegende Militärluftfahrzeuge.</li>
+    </ul>
+    <p>Alle aktuellen Zonen für deinen Standort: <a href="https://maptool-dipul.dfs.de" target="_blank" rel="noopener">maptool-dipul.dfs.de</a> (Deutschland).</p>
+  </div>
+</details>
+
+<details class="acc">
+  <summary>
+    <span class="summary-text">Datenschutz &amp; Privatsphäre<span class="summary-teaser">Transparenz, Datensparsamkeit, Löschpflicht bei Widerspruch</span></span>
+    <span class="chevron">+</span>
+  </summary>
+  <div class="acc-body">
+    <ul>
+      <li>Grundsatz: <strong>Transparenz</strong> (Betroffene wissen/können wissen, dass gefilmt wird) und <strong>Datensparsamkeit</strong> (nur aufnehmen, was wirklich nötig ist).</li>
+      <li>Verboten: gezieltes Eindringen in die Privatsphäre anderer, Aufnahmen für Gesichtserkennung oder andere automatisierte Auswertung.</li>
+      <li>Wenn eine gefilmte Person widerspricht: Aufnahme <strong>sofort löschen</strong> — auch wenn sie schon gemacht wurde.</li>
+      <li>Im Zweifel: Aufnahmebereich meiden oder warten, bis die Person(en) den Bereich verlassen haben.</li>
+      <li>Gilt für Foto, Video <strong>und</strong> Ton — alle drei unterliegen der DSGVO, sobald Personen erkennbar/identifizierbar sind.</li>
+    </ul>
+  </div>
+</details>
+
+<details class="acc">
+  <summary>
+    <span class="summary-text">VLOS — maximale Sichtweite<span class="summary-teaser">Mini 4 Pro ≈ 142 m · Neo 2 ≈ 76 m</span></span>
+    <span class="chevron">+</span>
+  </summary>
+  <div class="acc-body">
+    <p>Formel des Luftfahrt-Bundesamts: <code>Entfernung (m) = 327 × CD (m) + 20</code> — CD ist die charakteristische Größe des UAS, bei einem Multikopter der maximale Abstand zwischen den Rotorspitzen. DJI gibt für beide Modelle keine offizielle "Diagonal Distance" an, daher wurde die größte offiziell publizierte Abmessung inkl. Propeller/Propellerschutz als CD verwendet.</p>
+    <div class="stat-row">
+      <div class="stat-box">
+        <div class="stat-label">Mini 4 Pro</div>
+        <div class="stat-value">≈ 142 m</div>
+        <div class="stat-detail">CD = 373&nbsp;mm (Breite ausgefaltet inkl. Propeller)</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Neo 2</div>
+        <div class="stat-value">≈ 76 m</div>
+        <div class="stat-detail">CD = 171&nbsp;mm (Breite inkl. Propellerschutz)</div>
+      </div>
+    </div>
+    <p>Das ist die theoretische <strong>Obergrenze</strong> laut Formel, keine Garantie für tatsächliche Erkennbarkeit. Bei Gegenlicht, Dunst oder komplexem Hintergrund lieber deutlich näher fliegen — besonders bei der Neo 2, die durch ihre geringere Größe schneller aus dem Blick verschwindet.</p>
+  </div>
+</details>
+
+<details class="acc">
+  <summary>
+    <span class="summary-text">Nachtflug-Beleuchtung<span class="summary-teaser">Mini 4 Pro: eingebaut, schaltet beim Filmen ab · Neo 2: kein Licht ab Werk</span></span>
+    <span class="chevron">+</span>
+  </summary>
+  <div class="acc-body">
+    <div class="callout warn">
+      <span class="callout-title">DJI Mini 4 Pro</span>
+      Eingebaute, grün blinkende Heckarm-Lichter sind vorhanden — schalten sich aber automatisch ab, sobald eine Videoaufnahme startet (Firmware-fest, nicht einstellbar). Reicht also nur für reine Nachtflüge ohne Filmen. Für Nachtaufnahmen ist ein externes Licht nötig.
+    </div>
+    <div class="callout warn">
+      <span class="callout-title">DJI Neo 2</span>
+      Kein eingebautes Blinklicht ab Werk — bei C0-Drohnen ist das herstellerseitig nicht vorgeschrieben (nur bei C1–C3). Für jeden Nachtflug ist ein externes Licht nötig.
+    </div>
+    <p><strong>Empfehlung:</strong> <a href="https://n-factory.de/VIFLY-Strobe-LED-Anti-Collision-Light-for-Drones_1" target="_blank" rel="noopener">VIFLY Strobe Anti-Collision Light</a> — nur ca. 6&nbsp;g, mit grüner LED (neben weiß/rot), per 3M-Klebepad befestigt, am Unterboden montieren.</p>
+    <div class="callout warn">
+      <span class="callout-title">⚠ Gewichts-Falle bei der Mini 4 Pro</span>
+      Die Mini 4 Pro wiegt ab Werk knapp unter 249&nbsp;g — nur ca. 1&nbsp;g Puffer zur 250-g-Grenze der C0-Klasse. Ein zusätzliches 6-g-Licht würde sie über 250&nbsp;g und damit aus der C0-Klasse heraus bringen. Das externe Licht daher <strong>nur an der Neo 2</strong> anbringen (151&nbsp;g + 6&nbsp;g bleibt problemlos unter 250&nbsp;g). Für Nachtaufnahmen mit der Mini 4 Pro im Zweifel auf die Neo 2 ausweichen oder ohne Filmen fliegen.
+    </div>
+  </div>
+</details>
+
+<details class="acc">
+  <summary>
+    <span class="summary-text">Während des Flugs &amp; im Notfall<span class="summary-teaser">Akku-Check, Vorrangregeln, RTH, Kollision, Absturz</span></span>
+    <span class="chevron">+</span>
+  </summary>
+  <div class="acc-body">
+    <p><strong>Während des Flugs:</strong></p>
+    <ul>
+      <li>Akkustand <strong>mind. einmal pro Minute</strong> checken</li>
+      <li>Drohne im Blick behalten, nicht dauerhaft aufs Display starren</li>
+      <li>Bemannte Luftfahrzeuge haben immer Vorrang — bei Annäherung sofort Höhe reduzieren oder landen</li>
+    </ul>
+    <p><strong>Im Notfall:</strong></p>
+    <ul>
+      <li><strong>Sichtverlust:</strong> sofort Return-to-Home (RTH) aktivieren</li>
+      <li><strong>GNSS-/Kompassfehler:</strong> RTH kann unzuverlässig sein → manueller Modus, selbst zurücksteuern</li>
+      <li><strong>Kollisionsgefahr:</strong> sofort Höhe reduzieren, davon ausgehen dass dich der andere nicht sieht</li>
+      <li><strong>Absturz:</strong> Umstehende warnen, danach Flugdaten sichern</li>
+    </ul>
+  </div>
+</details>
+
+<details class="acc">
+  <summary>
+    <span class="summary-text">Nach der Landung<span class="summary-teaser">Akku raus, Sichtprüfung, optional Flugbuch</span></span>
+    <span class="chevron">+</span>
+  </summary>
+  <div class="acc-body">
+    <p>Rechtlich nicht vorgeschrieben, aber empfohlen — dauert nur eine Minute:</p>
+    <ul>
+      <li>Akku entnehmen, aufladen, separat lagern (nicht neben leicht entflammbaren Sachen)</li>
+      <li>Kurze Sichtprüfung auf Beschädigung/Verschmutzung, v.a. Propeller</li>
+      <li>Optional Flugbuch-Eintrag: Datum, Ort, Dauer, Besonderheiten — hilfreich falls später mal was nachvollzogen werden muss</li>
+    </ul>
+  </div>
+</details>
+
+<details class="acc">
+  <summary>
+    <span class="summary-text">Meldepflicht<span class="summary-teaser">Nur bei schwerer Verletzung, Tod oder Beinahe-Kollision</span></span>
+    <span class="chevron">+</span>
+  </summary>
+  <div class="acc-body">
+    <p>Ein Vorfall muss nur gemeldet werden bei: schwerer Verletzung/Tod durch die Drohne, oder Beinahe-Kollision/Vorfall mit einem bemannten Luftfahrzeug. Kostenlose Online-Meldung, keine Sanktion allein aufgrund der Meldung:</p>
+    <p><a href="https://onl-meldung.bfu-web.de/onlmeldung" target="_blank" rel="noopener">onl-meldung.bfu-web.de/onlmeldung</a> (BFU, Deutschland)</p>
+  </div>
+</details>
+
+<div class="footer-note">
+  Quelle: LBA-Online-Kurs „UAS A1/A3" + DJI-Herstellerangaben (Stand 24.08.2026). Allgemeine Hintergründe (nicht drohnenspezifisch) in der Vault-Notiz „Drohnen-Vorschriften (EU)".
+</div>
+
+</div>
+
+<script>
+function updateProgress() {
+  var boxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+  var checked = document.querySelectorAll('.checklist input[type="checkbox"]:checked').length;
+  document.getElementById('progressText').textContent = checked + ' / ' + boxes.length + ' erledigt';
+}
+</script>
+
+</body>
+</html>
